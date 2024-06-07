@@ -1,23 +1,4 @@
 import './style/styles.css';
-document.getElementById('addNoteForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-        
-class NoteForm extends HTMLElement {
-  constructor() {
-    super();
- 
-    this.innerHTML = `<form id="addNoteForm">
-    <label for="noteTitle">Title:</label>
-    <input type="text" id="noteTitle" name="noteTitle" required>
-    <label for="noteContent">Content:</label>
-    <textarea id="noteContent" name="noteContent" required></textarea>
-    <button type="submit">Add Note</button>
-    </form>`;
-  }
-}
- 
-customElements.define('note-form', NoteForm);
-// note-form.js
 
 // Fungsi untuk menambahkan catatan baru
 async function addNote() {
@@ -38,7 +19,7 @@ async function addNote() {
     } else {
         console.error('Gagal menambahkan catatan');
     }
-}
+  }
 
 // Fungsi untuk mengambil dan menampilkan daftar catatan
 async function getNotes() {
@@ -74,56 +55,7 @@ async function deleteNote(noteId) {
     }
 }
 
-// Panggil fungsi getNotes() saat halaman dimuat untuk pertama kali
-document.addEventListener('DOMContentLoaded', () => {
-    getNotes();
-});
-
-
-    const formData = new FormData(this);
-    const noteData = {
-        title: formData.get('judul'),
-        body: formData.get('isi')
-    };
-
-    // Kirim data ke API
-    fetch('https://notes-api.dicoding.dev/v2/notes', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(noteData),
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Tambahkan catatan baru ke daftar catatan
-        const notesContainer = document.getElementById('notesContainer');
-        const noteElement = document.createElement('div');
-        noteElement.classList.add('note');
-        noteElement.innerHTML = `
-            <h2>${data.title}</h2>
-            <p>${data.body}</p>
-        `;
-        notesContainer.appendChild(noteElement);
-
-        // Reset form
-        document.getElementById('addNoteForm').reset();
-    })
-    .catch(error => console.error('Error adding note:', error));
-});
-class NoteNavbar extends HTMLElement {
-    connectedCallback() {
-        this.innerHTML = `
-            <nav style="background-color: #496989; color: white; text-align: center;">
-                <h1>Note App Js</h1>
-            </nav>
-        `;
-    }
-}
-
 customElements.define('note-navbar', NoteNavbar);
-
-
 class NoteForm extends HTMLElement {
     connectedCallback() {
         this.innerHTML = `
@@ -170,6 +102,56 @@ class NoteForm extends HTMLElement {
             .catch(error => console.error('Error adding note:', error));
         });
     }
+}
+
+// Panggil fungsi getNotes() saat halaman dimuat untuk pertama kali
+document.addEventListener('DOMContentLoaded', () => {
+  getNotes();
+});
+
+document.getElementById('addNoteForm').addEventListener('submit', function(event) {
+  event.preventDefault();
+  
+  
+  const formData = new FormData(this);
+  const noteData = {
+      title: formData.get('judul'),
+      body: formData.get('isi')
+  };
+
+  // Kirim data ke API
+  fetch('https://notes-api.dicoding.dev/v2/notes', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(noteData),
+  })
+  .then(response => response.json())
+  .then(data => {
+      // Tambahkan catatan baru ke daftar catatan
+      const notesContainer = document.getElementById('notesContainer');
+      const noteElement = document.createElement('div');
+      noteElement.classList.add('note');
+      noteElement.innerHTML = `
+          <h2>${data.title}</h2>
+          <p>${data.body}</p>
+      `;
+      notesContainer.appendChild(noteElement);
+
+      // Reset form
+      document.getElementById('addNoteForm').reset();
+  })
+  .catch(error => console.error('Error adding note:', error));
+});
+class NoteNavbar extends HTMLElement {
+  connectedCallback() {
+      this.innerHTML = `
+          <nav style="background-color: #496989; color: white; text-align: center;">
+              <h1>Note App Js</h1>
+          </nav>
+      `;
+  }
 }
 
 class NoteFooter extends HTMLElement {
