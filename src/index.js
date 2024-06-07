@@ -124,8 +124,6 @@ fetch('https://notes-api.dicoding.dev/v2')
     })
     .catch(error => console.error('Error fetching data:', error));
 
-    import './styles.css';
-
 const API_URL = 'https://notes-api.dicoding.dev/v2';
 
 document.addEventListener('DOMContentLoaded', () => {
